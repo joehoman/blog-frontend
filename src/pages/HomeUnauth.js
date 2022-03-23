@@ -1,20 +1,39 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { Link, useNavigate } from 'react-router-dom';
 // import './pages.css';
 
 export default function HomeUnauth() {
+    const navigate = useNavigate();
 
-    const [posts, setPosts] = useState('test')
+    useEffect(() => {
+        const userInfo = localStorage.getItem("userInfo");
+
+        if(userInfo){
+            navigate('/myposts')
+            // history.push("/myposts")
+        }
+
+
+    }, [])
+
+    const [posts, setPosts] = useState(false)
 
      useEffect(function(){
-        fetch(`${process.env.REACT_APP_API_URL}/posts`)
-        .then(response => response.json())
-        .then(response => setPosts([response]))
-        .catch((err) => console.error(err))
+        const userInfo = localStorage.getItem("userInfo");
+        if(userInfo){
+            console.log('usestate user info called')
+        }
+        else {
+            fetch(`${process.env.REACT_APP_API_URL}/posts`)
+            .then(response => response.json())
+            .then(response => setPosts([response]))
+            .catch((err) => console.error(err))
+        }
+
     },[]);
 
-    if (posts !== 'test'){
+    if (posts){
 
         return (
             <div className="App">

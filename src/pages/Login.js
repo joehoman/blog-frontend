@@ -1,55 +1,74 @@
-import React from 'react';
-
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
-// import './pages.css';
+import axios from "axios";
 
 
-// function sendLogin(e){
-
-//    let username = e.target.form[0].value;
-//    let password = e.target.form[1].value;
-//    console.log('username', username)
-//    console.log('password', password)
-
-
-//    fetch(`http://localthost:8080/users`, {
-//         headers : {
-//             'Content-Type': 'application/json',
-//             'Accept': 'application/json'
-//        },
-//         method: "POST",
-//         body: JSON.stringify({
-//           username: username,
-//           password: password
-
-//         })
-//     })
-//     .then((res) => res.json())
-//     .then(data => console.log(data))
-//     .catch((err) => console.log(err))
-
-
-
-// };
 
 export default function Login() {
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
+    const[loading, setLoading] = useState(false);
+
+
+    const submitHandler = async (e) => {
+        e.preventDefault()
+        fetch(process.env.REACT_APP_LOGIN_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"username": "qwerty", "password": "qwerty"}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success', data);
+            localStorage.setItem('userInfo', JSON.stringify(data))
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+        // try{
+        //     const config = {
+        //         headers: {
+        //             "Content-type":"application/json"
+        //         }
+        //     }
+
+        //     setLoading(true)
+        //     const { data } = await axios.post(
+        //         console.log(process.env.REACT_APP_LOGIN_URL)
+        //         (process.env.REACT_APP_LOGIN_URL),
+        //         {
+        //             username: username,
+        //             password: password,
+        //         },
+        //         config
+        //     );
+        //         console.log(data, 'asdfasdf')
+        //         localStorage.setItem('userInfo',JSON.stringify(data));
+        //     setLoading(false)
+        // }catch{
+        //     console.log('error')
+        // };
+    };
 
     return (
         <div className="forms">
             <h1>Please Login</h1>
-            <form className="login-form">
+            <form className="login-form" onSubmit={submitHandler}>
                 <p>
                     <label>Username:</label>
-                    <input for="username" type="text" />
+                    <  input  onChange={(e) => setUsername(e.target.value)} type="text" />
                 </p>
-                <p>
-                    <label>Password:</label>
-                    <input for="username" type="password" />
+                <p >
+                    <label >Password:</label>
+                    <input  type="password" onChange={(e) => setPassword(e.target.value)} />
                 </p>
-                {/* <Link to="/myposts" element={<MyPosts />}>
-                <button onClick={e => sendLogin(e)} type="submit" className = "submitBtn">Login</button>
-                </Link> */}
+                {/* <Link to="/myposts"> */}
+                <button type="submit" className = "submitBtn">Login</button>
+                {/* </Link> */}
             </form>
 
             <h2>Don't have an account?</h2>
