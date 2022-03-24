@@ -1,0 +1,9 @@
+.posts {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    inline-size: 800px;
+    overflow-wrap: break-word;
+}

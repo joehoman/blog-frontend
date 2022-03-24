@@ -1,83 +1,75 @@
 import React from 'react';
 // import './pages.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function Register (){
 
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        const userInfo = localStorage.getItem("userInfo");
+
+        if(userInfo){
+            navigate('/myposts')
+        }
+
+
+    }, [])
+
+
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [first_name, setFirst_name] = useState("")
-    const [last_name, setLast_name] = useState("")
-    const [email, setEmail] = useState("")
-    const [address, setAddress] = useState("")
-    const [phone_number, setPhone_number] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [error, setError] = useState(false);
+    const[loading, setLoading] = useState(false);
 
 
-    let handleSubmit = (e) => {
 
 
-        e.preventDefault();
-            //might need to change the link for fetch
-          fetch('http://localhost:8080/users', {
-            headers : {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-             },
-            method: "POST",
-            body: JSON.stringify({
-              username: username,
-              password: password,
-              first_name: first_name,
-              last_name: last_name,
-              email: email,
-              address: address,
-              phone_number: phone_number
-            }),
-          })
-          .then((res) => res.json())
-          .catch((err) => console.log('error from fetch'))
-        }
+    const submitHandler = async (e) => {
+        e.preventDefault()
+        fetch(`${process.env.REACT_APP_API_URL}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"username": username, "password": password, first_name: firstName, last_name:lastName}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success', data);
+            localStorage.setItem('userInfo', JSON.stringify(data))
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    };
+
+
     return(
     <div className="forms">
         <h1>Register Your Account</h1>
-            <form className='register-form' onSubmit={handleSubmit}>
+            <form className='register-form' onSubmit={submitHandler}>
                 <p>
-                    <label for="username">Username:</label>
-                    <input type="text"
-                    onChange={(e) => setUsername((e.target.value))}/>
+                    <label>Username:</label>
+                    <input type="text" onChange={(e) => setUsername(e.target.value)}/>
                 </p>
                 <p>
-                    <label for="password">Password:</label>
-                    <input type="password"
-                    onChange={(e) => setPassword((e.target.value))}/>
+                    <label >Password:</label>
+                    <input type="password" onChange={(e) => setPassword(e.target.value)}/>
                 </p>
                 <p>
-                    <label for="firstName">First Name:</label>
-                    <input type="text"
-                    onChange={(e) => setFirst_name((e.target.value))}/>
+                    <label >First Name:</label>
+                    <input type="text" input onChange={(e) => setFirstName(e.target.value)}/>
                 </p>
                 <p>
                     <label>Last Name:</label>
-                    <input for="lastName" type="text"
-                    onChange={(e) => setLast_name((e.target.value))}/>
+                    <input type="text" input onChange={(e) => setLastName(e.target.value)}/>
                 </p>
-                <p>
-                    <label for="email">E-mail:</label>
-                    <input for="email" type="text"
-                    onChange={(e) => setEmail((e.target.value))}/>
-                </p>
-                <p>
-                    <label for="address">Address:</label>
-                    <input type="text"
-                    onChange={(e) => setAddress((e.target.value))}/>
-                </p>
-                <p>
-                    <label for="phoneNumber">Phone Number:</label>
-                    <input  type="text"
-                    onChange={(e) => setPhone_number((e.target.value))}/>
-                </p>
-
                 <button type="submit" className = "submitBtn">Create Account</button>
             </form>
     </div>
