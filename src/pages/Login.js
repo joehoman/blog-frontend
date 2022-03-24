@@ -23,6 +23,8 @@ const navigate = useNavigate();
 
     const submitHandler = async (e) => {
         console.log('asdf', e)
+        console.log('process.env.DATABASE_URL', process.env.DATABASE_URL)
+        console.log('DATABASE_URL', DATABASE_URL)
         e.preventDefault()
         fetch(process.env.REACT_APP_LOGIN_URL, {
             method: 'POST',
