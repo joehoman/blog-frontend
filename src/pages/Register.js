@@ -38,11 +38,10 @@ export default function Register (){
             },
             body: JSON.stringify({"username": username, "password": password, first_name: firstName, last_name:lastName}),
         })
-        .then(response => response.json())
         .then(data => {
             console.log('Success', data);
             localStorage.setItem('userInfo', JSON.stringify(data))
-            window.location.reload();
+            // window.location.reload();
         })
         .catch((error) => {
             console.error('Error:', error);
