@@ -34,7 +34,7 @@ export default function Home() {
     }
 
     const checkLength = ((input) => {
-        if (input.length > 100){
+        if (input.length > 300){
             let shortInput = `${input.slice(0, 100)}...`
             return shortInput
         }

@@ -79,6 +79,7 @@ export default function ViewEditPost() {
         })
         .catch((error) => {
             console.error('Error:', error);
+            navigate('/logout')
         });
     };
 

@@ -5,20 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function Register (){
-
-
     const navigate = useNavigate();
-    useEffect(() => {
-        const userInfo = localStorage.getItem("userInfo");
-
-        if(userInfo){
-            navigate('/myposts')
-        }
-
-
-    }, [])
-
-
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [firstName, setFirstName] = useState("")
@@ -26,10 +13,7 @@ export default function Register (){
     const [error, setError] = useState(false);
     const[loading, setLoading] = useState(false);
 
-
-
-
-    const submitHandler = async (e) => {
+    const SubmitHandler = async (e) => {
         e.preventDefault()
         fetch(`${process.env.REACT_APP_API_URL}/register`, {
             method: 'POST',
@@ -38,11 +22,7 @@ export default function Register (){
             },
             body: JSON.stringify({"username": username, "password": password, first_name: firstName, last_name:lastName}),
         })
-        .then(data => {
-            console.log('Success', data);
-            localStorage.setItem('userInfo', JSON.stringify(data))
-            // window.location.reload();
-        })
+        .then(navigate('/login'))
         .catch((error) => {
             console.error('Error:', error);
         });
@@ -52,7 +32,7 @@ export default function Register (){
     return(
     <div className="forms">
         <h1>Register Your Account</h1>
-            <form className='register-form' onSubmit={submitHandler}>
+            <form className='register-form' onSubmit={SubmitHandler}>
                 <p>
                     <label>Username:</label>
                     <input type="text" onChange={(e) => setUsername(e.target.value)}/>

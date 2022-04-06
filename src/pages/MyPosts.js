@@ -8,6 +8,7 @@ export default function MyPosts() {
 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
+        console.log(userInfo)
 
         // if(userInfo){
         //     navigate('/myposts')

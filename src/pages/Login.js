@@ -32,8 +32,7 @@ const navigate = useNavigate();
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Success', data);
-            localStorage.setItem('userInfo', JSON.stringify(data))
+            if(data.user){localStorage.setItem('userInfo', JSON.stringify(data))}
             window.location.reload();
         })
         .catch((error) => {
