@@ -2,7 +2,7 @@
 The frontend of this app is a React app. The backend is an Express server connected to a Postgresql database
 
 ## 🏞 Background
-This project was built in 72 hours to earn my Z-Prefix as a Supra Coder in the Space Force. No joke!
+This project was built in 72 hours to earn my Z-Prefix as a Supra Coder in the Space Force.
 https://supracoders.us/z-prefix
 
 ## 💿 Running this app locally
